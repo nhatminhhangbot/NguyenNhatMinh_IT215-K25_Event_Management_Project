@@ -27,6 +27,11 @@ class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
 
+class RegisterResponse(BaseModel):
+    message: str
+    user: UserResponse
+
+
 class LoginRequest(BaseModel):
     email: str
     password: str

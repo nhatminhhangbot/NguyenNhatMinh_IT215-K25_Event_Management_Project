@@ -23,7 +23,10 @@ def register_user(db: Session, user_in: UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return db_user
+    return {
+        "message": "Đăng ký thành công",
+        "data": db_user
+    }
 
 
 def login_user(db: Session, login_data: LoginRequest):

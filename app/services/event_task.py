@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from datetime import datetime, timedelta
 from app.models.user import User
 from app.models.event import Event, EventStaff
 from app.models.event_task import EventTask
@@ -66,7 +67,7 @@ def validate_task_priority(priority_value: Optional[str] = None):
     if priority_value is not None and priority_value not in VALID_PRIORITIES:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Độ ưu tiên phải là LOW, MEDIUM hoặc HIGH"
+            detail="Độ ưu tiên phải là LOW, MEDIUM, HIGH"
         )
 
 
@@ -154,10 +155,10 @@ def update_event_task(db: Session, task_id: int, task_data: EventTaskUpdate, cur
 
     is_owner = event.owner_id == current_user.id
     is_assignee = task.assignee_id == current_user.id
-    if not is_admin(current_user) and not is_owner and not is_assignee:
+    if not is_owner and not is_assignee:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Chỉ ADMIN, OWNER sự kiện hoặc người phụ trách công việc mới có quyền cập nhật"
+            detail="Chỉ OWNER sự kiện hoặc người phụ trách công việc mới có quyền cập nhật"
         )
 
     validate_task_status(task_data.status)

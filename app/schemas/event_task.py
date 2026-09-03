@@ -9,6 +9,7 @@ class EventTaskBase(BaseModel):
     description: Optional[str] = None
     priority: str = "MEDIUM"
     assignee_id: Optional[int] = None
+    due_date: Optional[datetime] = None
 
 
 class EventTaskCreate(EventTaskBase):
