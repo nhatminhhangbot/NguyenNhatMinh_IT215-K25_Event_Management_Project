@@ -155,10 +155,10 @@ def update_event_task(db: Session, task_id: int, task_data: EventTaskUpdate, cur
 
     is_owner = event.owner_id == current_user.id
     is_assignee = task.assignee_id == current_user.id
-    if not is_owner and not is_assignee:
+    if not is_admin(current_user) and not is_owner and not is_assignee:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Chỉ OWNER sự kiện hoặc người phụ trách công việc mới có quyền cập nhật"
+            detail="Chỉ ADMIN, OWNER sự kiện hoặc người phụ trách công việc mới có quyền cập nhật"
         )
 
     validate_task_status(task_data.status)
