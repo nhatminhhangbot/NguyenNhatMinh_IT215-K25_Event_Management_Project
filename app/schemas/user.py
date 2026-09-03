@@ -29,7 +29,7 @@ class UserResponse(UserBase):
 
 class RegisterResponse(BaseModel):
     message: str
-    user: UserResponse
+    data: UserResponse
 
 
 class LoginRequest(BaseModel):
